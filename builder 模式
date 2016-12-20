@@ -1,0 +1,30 @@
+作者：Alex Wang
+链接：https://www.zhihu.com/question/39972591/answer/84053765
+来源：知乎
+著作权归作者所有，转载请联系作者获得授权。
+
+天天看java与模式是没用的，狂啃Android framework源代码几个月就醍醐灌顶了
+
+正好看到一个Builder模式的使用，来源于Android ApiDemos的"App/Notification/IncomingMessage"例子。
+
+这是一个Notification的对象创建例子：
+原来的代码是：
+
+        Notification notif = new Notification(R.drawable.stat_sample, tickerText,
+                System.currentTimeMillis());
+        notif.setLatestEventInfo(this, from, message, contentIntent);
+
+        notif.defaults = Notification.DEFAULT_ALL;
+
+使用builder模式之后是这样：
+        Notification notif = new Notification.Builder(this)
+        .setContentTitle(from)
+        .setContentText(message)
+        .setTicker(tickerText)
+        .setSmallIcon(R.drawable.stat_sample)
+        .setContentIntent(contentIntent)
+        .setWhen(System.currentTimeMillis())
+        .setDefaults(Notification.DEFAULT_ALL)
+        .build();
+
+优势应该很明显，习惯Builder之后就再也不想调用好多不同的方法去构建一个复杂对象了。
